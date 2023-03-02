@@ -8,6 +8,8 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.io.Serializable;
 
@@ -15,7 +17,9 @@ import java.io.Serializable;
 @Entity
 @Table(name = "product")
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Builder
+@Getter
 public class Product implements Serializable {
 
   @Id
@@ -24,6 +28,4 @@ public class Product implements Serializable {
   private String mame;
   private Double prices;
   private Boolean availability;
-
-  public Product() {}
 }
