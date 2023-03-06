@@ -12,25 +12,25 @@ what we did and what we accomplished on each project phase
 **Phase 1**
 
 1. Basic controller and service, standard Spring Boot one
-2. No recoverable no
+2. No recoverable alternatives
 
 **Phase 2**
-1. Besides, the basic construction, we also try to add more elegant handling on the service
+1. Besides, the basic construction, we also tried to add more elegant handling on the service
 side by implementing a functional style Either
-2. We add a callable annotation on our controller hoping to improve the performance on our tests
+2. We added a callable annotation on our controller hoping to improve the performance on our tests
 
 
 **Phase 3**
-1. Out of the box, the Callable implementation has not much to offer, we then try to add a more 
-meaningful performance, so we add:
+1. Out of the box, the Callable implementation has not much to offer, then we tried to add a more 
+meaningful performance, so we implemented:
    1. Flux object to work with sink and states
    2. We updated the controller with a very basic example for streaming to generate
    a single object per invocation
    3. We also added a retryable and recoverable (the last one just as an example on
-   in what we can do later, send it to queue, or notify an external servie, etc.)
+   what we can do later, send it to queue, or notify an external service, etc.)
 
 **Phase 4**
-1. Use Flux object 
+1. Use Flux object only
 2. Remove retryable
 3. Remove recoverable
       
@@ -40,8 +40,8 @@ configuration we used. On phase 4 we experience an increase on the http request 
 as well as iteration duration
 
 #### Conclusion
-Overall we were able to reduce at lest 2.5 seconds, improving a bit the performance from Phase 2 to Phase 3. Although
-we noticed that there is an penalty we need to pay if we want to use a retryable and recoverable. If we want to make
+Overall we were able to reduce at lest 2.5 seconds, improving a bit the performance from Phase 2 to Phase 3. From Phase 
+3 to Phase 4 we noticed that there is a penalty we need to pay if we want to use a retryable and recoverable. If we want to make
 a more robust application comparing to a faster one, we need to balance those two aspects. The recommendation is to go
 with Phase 3, so we can have a more resilience application.
 
