@@ -47,9 +47,9 @@ public class RestController {
           return () -> productService.findSimilarIds(productId)
               .orElse(Collections.emptyList());
     }*/
-/*
 
-    @GetMapping(value = "/product/{productId}/similar", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+
+    /*@GetMapping(value = "/product/{productId}/similar", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<List<Product>> getSmimilarAsStreams(@PathVariable("productId") Long productId){
       return Flux.fromStream(Stream.generate(() ->
           productService.findSimilarIds(productId).orElse(Collections.emptyList()))
@@ -57,11 +57,10 @@ public class RestController {
             log.info(String.valueOf(msg));
           }));
           //return productService.findSimilarIds(productId).orElse(Collections.emptyList());
-    }
-*/
+    }*/
 
   @GetMapping(value = "/product/{productId}/similar", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-  public Flux<List<Product>> getSmimilarAsStreams2(@PathVariable("productId") Long productId){
+  public Flux<List<Product>> getSimilarAsStreamsFlux(@PathVariable("productId") Long productId){
     return Flux.generate(() -> 97, (state, sink) -> {
       List<Product> value = productService.findSimilarIds(productId).orElse(Collections.emptyList());
       sink.next(value);
