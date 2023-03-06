@@ -12,14 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
-import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.Callable;
-import java.util.stream.Stream;
 
 @Slf4j
 @org.springframework.web.bind.annotation.RestController
@@ -36,40 +31,23 @@ public class RestController {
               product -> new ResponseEntity<>(product, HttpStatus.OK));
     }
 
-   @GetMapping("/product/{productId}/similar")
+    @GetMapping("/product/{productId}/similar")
     @ResponseBody
     public List<Product> getSimilarIds(@PathVariable("productId") Long productId) {
       return productService.findSimilarIds(productId).orElse(Collections.emptyList());
     }
 
-    /*@GetMapping("/product/{productId}/similar")
-      public Callable<List<Product>> getSimilarIds(@PathVariable("productId") Long productId) {
-          return () -> productService.findSimilarIds(productId)
-              .orElse(Collections.emptyList());
-    }*/
-
-
-    /*@GetMapping(value = "/product/{productId}/similar", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<List<Product>> getSmimilarAsStreams(@PathVariable("productId") Long productId){
-      return Flux.fromStream(Stream.generate(() ->
-          productService.findSimilarIds(productId).orElse(Collections.emptyList()))
-          .peek((msg) -> {
-            log.info(String.valueOf(msg));
-          }));
-          //return productService.findSimilarIds(productId).orElse(Collections.emptyList());
-    }*/
-
-  @GetMapping(value = "/product/{productId}/similar", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-  public Flux<List<Product>> getSimilarAsStreamsFlux(@PathVariable("productId") Long productId){
-    return Flux.generate(() -> 97, (state, sink) -> {
-      List<Product> value = productService.findSimilarIds(productId).orElse(Collections.emptyList());
-      sink.next(value);
-      if (value.size() == 0) {
-        sink.complete();
-      }
-      return state + 1;
-    });
-  }
+    @GetMapping(value = "/product/{productId}/similar", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<List<Product>> getSimilarAsStreamsFlux(@PathVariable("productId") Long productId) {
+      return Flux.generate(() -> 100, (state, sink) -> {
+        List<Product> value = productService.findSimilarIds(productId).orElse(Collections.emptyList());
+        sink.next(value);
+        if (value.size() == 0) {
+          sink.complete();
+        }
+        return state + 1;
+      });
+    }
 
 
     @GetMapping("/healthcheck")
