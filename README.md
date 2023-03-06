@@ -53,6 +53,12 @@ From command line use the Gradle Wrapper
 ./gradlew bootRun
 ```
 
+Check if project is alive
+```bash
+curl  http://localhost:5000/healthcheck -H 'Content-Type: application/json'
+```
+
+
 #### Want to see the data store on the DB?
 http://localhost:5000/h2-console
 user:sa

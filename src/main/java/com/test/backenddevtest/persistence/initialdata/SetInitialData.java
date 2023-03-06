@@ -33,7 +33,6 @@ public class SetInitialData {
                 .name("Dress")
                 .price(19.99)
                 .availability(Boolean.TRUE)
-                //.generation("n/a")
                 .style("classic")
                 .build();
 
