@@ -1,6 +1,6 @@
 ## Backend Java Test
 
-### Initial requiremetns and implemenations understandings
+### Initial requirements and implementations understandings
 This project was built using JDK v 17
 
 
