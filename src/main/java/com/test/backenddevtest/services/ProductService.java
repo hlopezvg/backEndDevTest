@@ -26,8 +26,7 @@ public class ProductService  {
     @Retryable(value = RuntimeException.class, maxAttempts = 4, backoff = @Backoff(delay = 3000, multiplier = 2))
     public Either<ResourceNotFoundException, Product> findById(Long productId) {
         return  productRepository.findById(productId)
-            .map(product -> Either.<ResourceNotFoundException, Product>
-                right(product))
+            .map(Either::<ResourceNotFoundException, Product>right)
             .orElseGet(() -> Either.left(new ResourceNotFoundException("ProductId " + productId)));
     }
 

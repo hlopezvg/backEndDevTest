@@ -16,7 +16,7 @@ what we did and what we accomplished on each project phase
 
 **Phase 2**
 1. Besides, the basic construction, we also try to add more elegant handling on the service
-side by implementing a functionl style Either
+side by implementing a functional style Either
 2. We add a callable annotation on our controller hoping to improve the performance on our tests
 
 
@@ -29,27 +29,44 @@ meaningful performance, so we add:
    3. We also added a retryable and recoverable (the last one just as an example on
    in what we can do later, send it to queue, or notify an external servie, etc.)
 
+**Phase 4**
+1. Use Flux object 
+2. Remove retryable
+3. Remove recoverable
       
 ### Tests results
 Our test show some improvements from phase 1 to 3, on phase 2 the performance was worse than the initial 
-configuration we used. Here is the most relevant 
+configuration we used. On phase 4 we experience an increase on the http request duration, blocked and connecting,
+as well as iteration duration
 
+#### Conclusion
+Overall we were able to reduce at lest 2.5 seconds, improving a bit the performance from Phase 2 to Phase 3. Although
+we noticed that there is an penalty we need to pay if we want to use a retryable and recoverable. If we want to make
+a more robust application comparing to a faster one, we need to balance those two aspects. The recommendation is to go
+with Phase 3, so we can have a more resilience application.
+
+### Comparisons Table
 #### *Callable*
 http_req_blocked...........: **avg=173.66µs** min=1.25µs   med=3.83µs   max=83.48ms  
 http_req_sending...........: **avg=29.79µs**  min=4.38µs   med=14.29µs  max=82.08ms  
 iteration_duration.........: **avg=510.44ms** min=500.37ms med=502.24ms max=1.13s    
 
-#### *FLUX*
-http_req_blocked...........: **avg=48.79µs**  min=990ns    med=3.24µs   max=89.67ms     
-http_req_sending...........: **avg=18.34µs**  min=3.7µs    med=11.04µs  max=3.66ms   
-iteration_duration.........: **avg=507.18ms** min=500.19ms med=501.73ms max=896.22ms
+#### *FLUX and Retryable*
+http_req_blocked...........: **avg=83.11µs**  min=990ns    med=3.24µs   max=89.67ms     
+http_req_sending...........: **avg=26µs**     min=3.7µs    med=11.04µs  max=3.66ms   
+iteration_duration.........: **avg=505.56ms** min=500.19ms med=501.73ms max=896.22ms
 
-Overall we were able to reduce at lest 2.5 seconds, improving a bit the performance.
+#### *FLUX*
+http_req_blocked...........: **avg=75.21µs**  min=1.11µs   med=3.44µs   max=89.67ms     
+http_req_sending...........: **avg=25.34µs**  min=3.7µs    med=11.04µs  max=3.66ms   
+iteration_duration.........: **avg=504.08ms** min=500.19ms med=501.73ms max=896.22ms
 
 
 ### How to run this project
 From command line use the Gradle Wrapper
 ```
+ ./gradlew build
+ 
 ./gradlew bootRun
 ```
 

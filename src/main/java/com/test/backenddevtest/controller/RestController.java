@@ -31,24 +31,16 @@ public class RestController {
               product -> new ResponseEntity<>(product, HttpStatus.OK));
     }
 
-    @GetMapping("/product/{productId}/similar")
-    @ResponseBody
-    public List<Product> getSimilarIds(@PathVariable("productId") Long productId) {
-      return productService.findSimilarIds(productId).orElse(Collections.emptyList());
-    }
 
     @GetMapping(value = "/product/{productId}/similar", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<List<Product>> getSimilarAsStreamsFlux(@PathVariable("productId") Long productId) {
-      return Flux.generate(() -> 100, (state, sink) -> {
+      return Flux.generate(() -> 1, (state, sink) -> {
         List<Product> value = productService.findSimilarIds(productId).orElse(Collections.emptyList());
         sink.next(value);
-        if (value.size() == 0) {
-          sink.complete();
-        }
+        sink.complete();
         return state + 1;
       });
     }
-
 
     @GetMapping("/healthcheck")
     String getOne() {
